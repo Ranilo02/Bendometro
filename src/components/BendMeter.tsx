@@ -277,7 +277,7 @@ export default function BendMeter({
     display?.active && "text-[#f2b34c]",
   );
   const trackClassName = cn(
-    "relative overflow-hidden rounded-full border border-[rgba(244,219,192,0.1)] bg-[linear-gradient(90deg,rgba(198,91,109,0.16)_0%,rgba(85,199,223,0.1)_50%,rgba(145,191,95,0.18)_100%)] shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)]",
+    "relative overflow-hidden rounded-full border border-[rgba(244,219,192,0.1)] bg-[#1d1b18] shadow-[inset_0_1px_3px_rgba(255,244,223,0.08),inset_0_-10px_18px_rgba(0,0,0,0.48)]",
     isLarge ? "mt-8 h-20" : "mt-1 h-5",
   );
   const markerClassName = cn(
@@ -296,9 +296,8 @@ export default function BendMeter({
         : "border-[rgba(244,219,192,0.22)] bg-[linear-gradient(180deg,#5d5046_0%,#2a211a_100%)] text-[var(--color-text-primary)] shadow-[0_5px_10px_rgba(0,0,0,0.28)]",
   );
   const markerLabelClassName = cn(
-    "grid items-center font-mono leading-none text-[rgba(244,219,192,0.38)]",
-    isLarge ? "grid-cols-[repeat(13,minmax(0,1fr))]" : "grid-cols-5",
-    isLarge ? "mt-3 text-[0.82rem]" : "mt-[0.28rem] text-[0.5rem]",
+    "relative font-mono leading-none text-[rgba(244,219,192,0.38)]",
+    isLarge ? "mt-3 h-4 text-[0.82rem]" : "mt-[0.28rem] h-2.5 text-[0.5rem]",
   );
   const centsClassName = cn(
     "absolute font-mono font-bold leading-none text-[var(--color-text-secondary)]",
@@ -403,17 +402,24 @@ export default function BendMeter({
       </div>
 
       <div className={markerLabelClassName}>
-        {markerLabels.map((label, index) => (
-          <span
-            key={label}
-            className={cn(
-              "text-center",
-              index === Math.floor(markerLabels.length / 2) && "font-bold",
-            )}
-          >
-            {label}
-          </span>
-        ))}
+        {markerLabels.map((label, index) => {
+          const marker = markerValues[index] ?? 0;
+          const markerPosition =
+            ((marker + bendRangeCents) / (bendRangeCents * 2)) * 100;
+
+          return (
+            <span
+              key={label}
+              className={cn(
+                "absolute top-0 -translate-x-1/2 text-center",
+                index === Math.floor(markerLabels.length / 2) && "font-bold",
+              )}
+              style={{ left: `${markerPosition}%` }}
+            >
+              {label}
+            </span>
+          );
+        })}
       </div>
 
       <span className={centsClassName}>{centsLabel}</span>
