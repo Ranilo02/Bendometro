@@ -32,12 +32,16 @@
   }
 
   html {
-    min-height: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
   }
 
   body {
     margin: 0;
-    min-height: 100vh;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
     font-family: var(--font-sans);
     color: var(--color-text-primary);
     background: var(--app-bg);
@@ -45,5 +49,58 @@
 
   button {
     font: inherit;
+  }
+
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .app-shell {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .app-main {
+    overflow: hidden;
+  }
+
+  .app-shell--rotated {
+    inset: 0;
+    position: fixed;
+    touch-action: none;
+  }
+
+  .app-shell--rotated .app-main {
+    height: 100svw;
+    left: 50%;
+    max-width: none;
+    min-height: 100svw;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    width: 100svh;
+  }
+}
+
+@media (max-width: 799px) {
+  .app-shell {
+    inset: 0;
+    position: fixed;
+    touch-action: none;
+  }
+
+  .app-shell .app-main {
+    height: 100svw;
+    left: 50%;
+    max-width: none;
+    min-height: 100svw;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    width: 100svh;
   }
 }
